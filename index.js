@@ -30,11 +30,17 @@ function listBooks(book) {
   li.addEventListener('click', function() {
   const div = document.getElementById('show-panel') // selecting part of the DOM by ID
   console.log(div)
+
+  // user_ids = ''
+  // book.users.forEach(user => user_ids += `${user.id},`)
+  
   div.innerHTML =`  
   <h2>${book.title}</h2>
   <img src ="${book.img_url}"/>
   <p>${book.description}</p>
-  <button id="read_book_btn" data-book-id="${book.id}" data-users="${book.users}" >Read Book</button>` 
+  <button id="read_book_btn" data-book-id="${book.id}" data-users="${book.users}" >Read Book</button> 
+  <p id="current_book_likes">Likes: <span>${book.users.length}</span></p>`
+  
  // adding HTML to display book after event click
 })
   
