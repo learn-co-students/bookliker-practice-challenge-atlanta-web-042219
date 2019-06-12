@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   getBooks()
+
   const form = document.getElementById("add-book-form")
   form.addEventListener("submit", createBook)
 })
@@ -8,7 +9,7 @@ function getBooks() {
   fetch("http://localhost:3000/books")
   .then(res => res.json())
   .then(res => 
-      {res.forEach(book => populateBook(book))
+    {res.forEach(book => populateBook(book))
   })
 }
 
@@ -24,7 +25,8 @@ function createBook(e) {
       "description": e.target.description.value, 
       "likes": 0
     })
-  }).then(resp => resp.json())
+  })
+  .then(resp => resp.json())
   .then(populateBook)
   .then(form.reset())
 }
@@ -37,7 +39,6 @@ function deleteBook(e) {
   .then(e.target.parentElement.remove())
   .then(document.getElementById(e.target.dataset.bookId).remove())
 }
-
 
 function populateBook(book) {
   const ul = document.getElementById("list")
@@ -59,7 +60,7 @@ function populateBook(book) {
     p.innerText = book.description
 
     const likeButton = document.createElement("button")
-    likeButton.innerText = "Like...Subscribe: "
+    likeButton.innerText = "Likes: "
 
     const btn_span = document.createElement("span")
     btn_span.innerText = book.likes
@@ -67,6 +68,7 @@ function populateBook(book) {
 
     likeButton.addEventListener("click", () => {
       btn_span.innerText = parseInt(btn_span.innerText) + 1
+
       fetch(`http://localhost:3000/books/${book.id}`,{
         method: "PATCH",
         headers: {"Content-Type":"application/json"},

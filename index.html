@@ -4,16 +4,28 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<link rel="stylesheet" href="./index.css">
-	<script type="text/javascript" src="./index.js"></script>
 </head>
-	<body>
-		<div id="list-panel">
-			<ul id="list">
-				<!-- put books here -->
-			</ul>
-		</div>
+<body>
 
-		<div id="show-panel"></div>
+	<div id="list-panel">
+		<form id="add-book-form" style="color:blue">
+			<h2>Add a Book!</h2>
 		
-	</body>
+			<input type="text" name="title" value="" placeholder="book title" class="input-text">
+			<br>
+			<input type="text" name="img_url" value="" placeholder="book cover" class="input-text">
+			<br>
+			<input type="text" name="description" value="" placeholder="book description" class="input-text">
+			<br>
+			<input type="submit" name="submit" value="Add New Book" class="submit">
+		</form>
+
+		<ul id="list">
+		</ul>
+	</div>
+
+	<div id="show-panel"></div>
+	
+	<script type="text/javascript" src="./index.js"></script>
+</body>
 </html>
