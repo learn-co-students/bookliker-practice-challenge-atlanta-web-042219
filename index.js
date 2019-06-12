@@ -1,49 +1,58 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener('DOMContentLoaded', () => {
   fetchBooks()
-  document.addEventListener('click', handleClickEvents)
-
-  function handleClickEvents(e) {
-    if(e.target.id === 'read_book_btn') 
-      readBookClicked(e.target.nextSibling.nextSibling) // holds the book id and user on line 38
-  }
 })
 
-function readBookClicked(id) {
-fetch('http://localhost:3000/books/${id}', {
-  method: 'PATCH',
-  headers: { 'Content-Type':'application/json' },
-  body: JSON.stringify({})
-})
-}
-
-function fetchBooks() {
-  return fetch('http://localhost:3000/books')
+function fetchBooks(){
+  fetch('http://localhost:3000/books')
   .then(res => res.json())
-  .then(json => json.forEach(listBooks)) //iterating over all books
+  .then(sortBooks)
 }
 
-function listBooks(book) {
-  const ul = document.getElementById('list') // selecting part of the DOM by ID
-  const li = document.createElement('li') // creating li within the selected ID
-  li.innerText = book.title // adding book title in the innerText
+function sortBooks(book){
+  // console.log(book)
+  book.forEach(book => showBook(book))
+}
+
+function showBook(book){
+  const ul = document.getElementById('list') 
+  const li = document.createElement('li') 
+  li.innerText = book.title 
   
   li.addEventListener('click', function() {
-  const div = document.getElementById('show-panel') // selecting part of the DOM by ID
-  console.log(div)
+  const div = document.getElementById('show-panel') 
+  // console.log(div)
 
-  // user_ids = ''
-  // book.users.forEach(user => user_ids += `${user.id},`)
-  
   div.innerHTML =`  
   <h2>${book.title}</h2>
   <img src ="${book.img_url}"/>
   <p>${book.description}</p>
-  <button id="read_book_btn" data-book-id="${book.id}" data-users="${book.users}" >Read Book</button> 
-  <p id="current_book_likes">Likes: <span>${book.users.length}</span></p>`
+  <button id="like_book_btn" data-book-id="${book.id}" data-users="${book.users}" >Like Book</button> 
+  <p id="current_book_likes">Likes: <span>${book.likes}</span></p>`
   
- // adding HTML to display book after event click
+  div.addEventListener('click', handleLikes)
 })
   
-  ul.appendChild(li) // adding to DOM
+  ul.appendChild(li) 
 }
 
+function handleLikes(e){
+      // console.log('liked', e)
+      // console.log(e.target.parentElement.innerText)
+      let likeValue = e.target.parentElement.querySelector('span').innerText
+      // console.log(likeValue)
+      let newValue = parseInt(likeValue)
+      // console.log('does this work', newValue)
+      let likeBox = e.target.parentElement.querySelector('span')
+      // console.log(likeBox)
+      likeBox.innerText = `${++newValue}`
+      // console.log(e.target.dataset.bookId)
+      let bookId = e.target.dataset.bookId
+      
+  fetch(`http://localhost:3000/books/${bookId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({"likes": newValue}),
+      headers: {'Accept': 'application/json', 'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+    // .then(console.log)
+    }
