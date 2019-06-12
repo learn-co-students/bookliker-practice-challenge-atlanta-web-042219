@@ -38,6 +38,8 @@ function showBook(book){
 function handleLikes(e){
       // console.log('liked', e)
       // console.log(e.target.parentElement.innerText)
+      // console.log(e.target.id)
+      if(e.target.id === 'like_book_btn'){
       let likeValue = e.target.parentElement.querySelector('span').innerText
       // console.log(likeValue)
       let newValue = parseInt(likeValue)
@@ -55,4 +57,5 @@ function handleLikes(e){
       }
     }).then(res => res.json())
     // .then(console.log)
-    }
+  }
+}
